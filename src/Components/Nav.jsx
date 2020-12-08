@@ -11,15 +11,19 @@ class Nav extends Component {
     theme: day,
   };
 
+  componentDidMount() {
+    //getTopics();
+  }
+
   render() {
     return (
       <div>
         <NavTop>
-          <Link path="/">
+          <Link to="/">
             <img src={northcodersLogo} alt="Northcoders logo" />
-            <NavTitle>NC NEWS</NavTitle>
-            <NavLogin>Log In</NavLogin>
           </Link>
+          <NavTitle>NC NEWS</NavTitle>
+          <NavLogin>Log In</NavLogin>
         </NavTop>
         <NavBottom></NavBottom>
       </div>
@@ -30,21 +34,21 @@ class Nav extends Component {
 //CSS
 
 const NavTop = styled.div`
-  color: ${props.theme.fg};
-  border: 2px solid red;
+  color: ${(props) => props.theme.fg};
   background: ${(props) => props.theme.bg};
+  border: 2px solid red;
 `;
 
 const day = {
-  fg: rgb(8, 10, 21),
-  bg: white,
-  text: black,
+  fg: "rgb(8, 10, 21)",
+  bg: "white",
+  text: "black",
 };
 
 const night = ({ fg, bg }) => ({
-  fg: white,
-  bg: rgb(8, 10, 21),
-  text: white,
+  fg: " white",
+  bg: "rgb(8, 10, 21)",
+  text: "white",
 });
 
 const NavTitle = styled.header`
