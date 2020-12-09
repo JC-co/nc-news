@@ -1,13 +1,18 @@
 import React from "react";
-import obiWanConfusion from "../Assets/obiwanconfused.jpg";
+import styled from "styled-components";
+import obiWanConfusion from "../Assets/obiwanconfused-smallwcomp.jpg";
 
 export const ErrorMsg = (props) => {
   return (
     <div>
-      <h2>{props.errorMsg}</h2>
-      <img src={obiWanConfusion} alt="confused Obi Wan" />
+      <h1>{props.errorMsg}</h1>
+      <ErrImg src={obiWanConfusion} alt="confused Obi Wan" />
     </div>
   );
 };
+
+const ErrImg = styled.img`
+  width: 100vw;
+`;
 
 export default ErrorMsg;

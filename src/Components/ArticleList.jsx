@@ -18,9 +18,19 @@ class ArticleList extends Component {
   }
 
   render() {
+    const { articles, isLoading } = this.state;
+    if (isLoading) {
+      return <h3>Loading...</h3>;
+    }
     return (
       <div>
-        <ArticleCard key="1" />
+        <ul>
+          {articles.map((singleArticle) => {
+            return (
+              <ArticleCard key={singleArticle.article_id} {...singleArticle} />
+            );
+          })}
+        </ul>
       </div>
     );
   }
