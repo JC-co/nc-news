@@ -43,7 +43,7 @@ class Nav extends Component {
           </Link>
 
           <Link to="/">
-            <NavTitle>NC News</NavTitle>
+            <NavTitle>JC News</NavTitle>
           </Link>
 
           {darkMode ? (

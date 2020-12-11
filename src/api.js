@@ -38,3 +38,12 @@ export const getComments = (article_id) => {
     return data.comments;
   });
 };
+
+export const postComment = (comment, article_id) => {
+  return ncNewsApi
+    .post(`/articles/${article_id}/comments`)
+    .send(comment)
+    .then(({ response }) => {
+      return response.new_comment;
+    });
+};

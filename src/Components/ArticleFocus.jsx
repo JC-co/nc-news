@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-import { getComments, getSingleArticle } from "../api";
+import { getComments, getSingleArticle, postComment } from "../api";
 import ArticleCard from "./ArticleCard";
+import Comment from "./Comment";
 import { convertDate } from "../Utils/utilFunctions";
 import { UserContext } from "../Context/User";
 
@@ -21,10 +22,14 @@ class ArticleFocus extends Component {
       this.setState({ article, isArticleLoading: false });
     });
   }
-  
-  postComment = (body) => {
 
-  }
+  componentDidUpdate(prevProps, prevState) {}
+
+  addComment = (comment) => {
+    const { article_id } = this.state.article;
+    // Comments need GET requesting again to update!
+    postComment(comment, article_id).then();
+  };
 
   render() {
     const {
@@ -45,12 +50,7 @@ class ArticleFocus extends Component {
           key={article.article_id}
           {...article}
         />
-        {loggedInUser ? (
-          <div>
-            <textarea></textarea>
-            <button onClick={this.postComment()}>Submit</button>
-          </div>
-        ) : null}
+        {loggedInUser ? <Comment addComment={this.addComment} /> : null}
         <ul id="comments">
           {comments.map((comment) => (
             <li key={comment.comment_id} className="comment">

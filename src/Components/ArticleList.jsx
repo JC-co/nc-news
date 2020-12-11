@@ -20,6 +20,7 @@ class ArticleList extends Component {
 
   render() {
     const { articles, isLoading } = this.state;
+    const { UserContext } = this.context;
     if (isLoading) {
       return <h3>Loading...</h3>;
     }
