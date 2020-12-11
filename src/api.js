@@ -18,6 +18,13 @@ export const getArticles = (sort_by, order) => {
     });
 };
 
+export const getSingleArticle = (article_id) => {
+  return ncNewsApi.get(`/articles/${article_id}`).then(({ data }) => {
+    console.dir(data);
+    return data.article;
+  });
+};
+
 export const getTopics = () => {
   return ncNewsApi.get("/topics").then(({ data }) => {
     console.dir(data);

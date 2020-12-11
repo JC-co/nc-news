@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Router, Link } from "@reach/router";
 import { getArticles } from "../api";
 import ArticleCard from "./ArticleCard";
+import { UserContext } from "./Nav";
 
 class ArticleList extends Component {
   state = {

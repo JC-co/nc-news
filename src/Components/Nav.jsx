@@ -2,15 +2,17 @@ import React, { Component } from "react";
 import { Router, Link } from "@reach/router";
 import styled from "styled-components";
 import Login from "./Login";
+import Switch from "../Utils/switch";
 import { getTopics } from "../api";
 import northcodersLogo from "../Assets/Northcoders - Logo - Red.png";
+import { UserContext } from "../Context/User";
 
 // Can also write as <React.Component> and not de-structure "Component" on Line 1.
 class Nav extends Component {
   state = {
     topics: [],
     isLoading: true,
-    theme: day,
+    darkMode: false,
   };
 
   componentDidMount() {
@@ -19,8 +21,17 @@ class Nav extends Component {
     });
   }
 
+  darkMode = () => {
+    this.setState({ darkMode: true });
+  };
+
+  lightMode = () => {
+    this.setState({ darkMode: false });
+  };
+
   render() {
-    const { topics, isLoading } = this.state;
+    const { topics, isLoading, darkMode } = this.state;
+    const { loggedInUser, login, logout } = this.context;
     if (isLoading) {
       return <p>Loading...</p>;
     }
@@ -30,9 +41,35 @@ class Nav extends Component {
           <Link to="/">
             <NavLogo src={northcodersLogo} alt="Northcoders logo" />
           </Link>
-          <NavTitle>NC NEWS</NavTitle>
-          <NavLogin>Log In</NavLogin>
+
+          <Link to="/">
+            <NavTitle>NC News</NavTitle>
+          </Link>
+
+          {darkMode ? (
+            <NavSwitch>
+              Dark Mode:
+              <Switch round onClick={() => this.lightMode()} />
+            </NavSwitch>
+          ) : (
+            <NavSwitch>
+              Dark Mode:
+              <Switch round onClick={() => this.darkMode()} />
+            </NavSwitch>
+          )}
+
+          {loggedInUser ? (
+            <div>
+              <p>Welcome {loggedInUser}</p>
+              <NavLogin onClick={() => logout()}>Log Out</NavLogin>
+            </div>
+          ) : (
+            <div>
+              <NavLogin onClick={() => login("Joe")}>Log In</NavLogin>
+            </div>
+          )}
         </NavTop>
+
         <NavBottom>
           {topics.map((topicEach) => (
             <Link key={topicEach.slug} to={`/topic/${topicEach.slug}`}>
@@ -50,17 +87,18 @@ class Nav extends Component {
 const NavTop = styled.div`
   color: ${(props) => props.theme.fg};
   background: ${(props) => props.theme.bg};
-  border: 2px solid red;
+  border: 1px solid #d20000;
   display: grid;
   grid-template-rows: 50px;
-  grid-template-columns: 75px 1fr 25px;
-  grid-template-areas: "logo title login";
+  grid-template-columns: 75px 1fr 50px 50px;
+  grid-template-areas: "logo title switch login";
 `;
 
 const NavBottom = styled.div`
+  height: 30px;
   background-color: #d20000;
   color: #f5f5f5;
-  border: 2px solid purple;
+  /* border: 1px solid purple; */
 `;
 
 const day = {
@@ -76,31 +114,38 @@ const night = ({ fg, bg }) => ({
 });
 
 const NavTitle = styled.header`
-  font-size: 4em;
-  text-align: center;
-  width: 50vw;
-  margin: 0 auto;
+  font-size: 2.5em;
+  text-align: left;
+  margin: 0;
   color: #080a15;
-  border: 2px solid green;
+  /* border: 2px solid green; */
   align-self: center;
   grid-area: title;
+`;
+
+const NavSwitch = styled.div`
+  font-size: 0.8em;
+  padding: 2px;
+  margin: 5px;
+  grid-area: switch;
 `;
 
 const NavLogo = styled.img`
   max-height: 60%;
   padding: 10px;
-  // vvv CHECK IF THIS WORKS!!
-  margin-left: -10px;
-  border: 2px solid blue;
+  margin-left: -5px;
+  /* border: 2px solid blue; */
   grid-area: logo;
 `;
 
 const NavLogin = styled.button`
+  font-size: 0.8em;
   border-radius: 8px;
-  height: 40%;
-  padding: 10px;
-  margin: 0;
+  padding: 2px;
+  margin: 5px;
   grid-area: login;
 `;
+
+Nav.contextType = UserContext;
 
 export default Nav;
